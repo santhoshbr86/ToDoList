@@ -1,0 +1,41 @@
+<section class="row todoList">
+	<div class="col-md-8 formSection">
+		<h2>To do List</h2>
+		<div class="bg-danger" ng-if="(todoForm.$invalid && submitted)">
+			<p ng-show="(todoForm.listItem.$error.required)">Please enter Task name.</p>
+			<p ng-show="(todoForm.listItem.$error.maxlength)">Maximum length can not exceeds more than 120 characters.</p>
+			<p ng-show="todoList.length>10">Can't be add more than 10 items.</p>
+		</div>
+		<form name="todoForm">
+			<input type="text" class="form-control" name="listItem" ng-model="name" placeholder="Type to search! press enter to add"  ng-maxlength="120" required ng-enter="updateList()">	
+		</form>
+	</div>
+	<div class="col-md-10">
+	<table class="table table-bordered">
+		<thead>
+			<tr>
+				<th>
+					<div class="checkbox">
+					<label>
+							<input type="checkbox" ng-model="selectAll" ng-change="checkAll()"> select All	
+							<span class="badge">{{todoList.length}}</span>
+					</label>	
+					</div>
+					
+				</th>
+				<th>Name</th>
+				<th><button class="btn btn-danger" ng-click="DeleteAll()">Delete All</button> 
+				<button class="btn btn-primary" ng-click="UndoAll()">Undo All</button>
+				<button class="btn btn-warning" ng-click="ResetAll()">Reset All</button>
+				</th>
+			</tr>
+		</thead>
+  		<tr ng-repeat="item in todoList |filter:name ">
+  			<td><input type="checkbox" ng-model="checkedItem[$index]" ng-change="markAsDone($index)"></td>
+  			<td ng-class="{done:item.status}">{{item.name}}</td>
+  			<td><a href="javascript:void(0);" ng-click="removeItem($index)" class="text-danger">Delete</a></td>
+  		</tr>
+	</table> 
+	</div>
+</section>
+
